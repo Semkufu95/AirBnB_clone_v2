@@ -29,9 +29,11 @@ def c_text(text):
 def Python_text(text='is cool'):
     return f"Python {text.replace('_', ' ')}"
 
+
 @app.route('/number/<int:n>')
 def num(n):
     return f"{n} is a number"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
