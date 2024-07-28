@@ -7,6 +7,8 @@ from flask import Flask
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+
 @app.route('/')
 def hello_bnb():
     return 'Hello HBNB!'
@@ -22,10 +24,14 @@ def c_text(text):
     return f"C {text.replace('_', ' ')}"
 
 
+@app.route('/python/')
 @app.route('/python/<text>')
 def Python_text(text='is cool'):
     return f"Python {text.replace('_', ' ')}"
 
+@app.route('/number/<int:n>')
+def num(n):
+    return f"{n} is a number"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
