@@ -1,0 +1,1 @@
+This is a directory that contains task of alx on the use of flask in completing the airbnb clone project
