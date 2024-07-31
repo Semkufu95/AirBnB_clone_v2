@@ -5,6 +5,11 @@
 
 from flask import Flask
 from flask import render_template
+from models import storage
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -50,7 +55,7 @@ def number_odd_or_even(n):
         num = "odd"
     return render_template('6-number_odd_or_even.html', number=n, parity=num)
 
-@app.route('/states_list', strict_slashes=False)
+@app.route('/states_list')
 def states_list():
     """ def doc """
     states = storage.all(State)
@@ -61,6 +66,35 @@ def states_list():
 def close(error):
     """ def doc """
     storage.close()
+
+@app.route('/cities_by_states')
+def cities_by_states():
+    """ def doc """
+    states = storage.all(State)
+    return render_template('8-cities_by_states.html', states=states)
+
+@app.route('/states')
+@app.route('/states/<id>')
+def states(id=None):
+    """ Route function for /states and /states/<id> """
+    not_found = False
+    if id is not None:
+        states = storage.all(State, id)
+        with_id = True
+        if len(states) == 0:
+            not_found = True
+    else:
+        states = storage.all(State)
+        with_id = False
+    return render_template('9-states.html', states=states,
+                           with_id=with_id, not_found=not_found)
+
+@app.route('/hbnb')
+def hbnb2():
+    """ Route function for /states and /states/<id> """
+    amenities = storage.all(Amenity)
+    states = storage.all(State)
+    return render_template('100-hbnb.html', states=states, amenities=amenities)
 
 
 if __name__ == '__main__':
